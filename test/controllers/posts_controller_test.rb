@@ -16,6 +16,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_equal post.id, json["id"]
     assert_equal post.title, json["title"]
     assert_equal post.body, json["body"]
+    assert_equal post.category_id, json["category_id"]
   end
 
   test "GET /posts/:id returns 404 when not found" do
@@ -25,12 +26,27 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
 
   test "POST /posts with valid params creates a post and returns 201" do
     assert_difference("Post.count") do
-      post posts_url, params: { post: { title: "New Post", body: "New body", user_id: users(:alice).id } }, as: :json
+      post posts_url, params: { post: { title: "New Post", body: "New body", user_id: users(:alice).id, category_id: categories(:sports).id } }, as: :json
     end
     assert_response :created
     json = JSON.parse(response.body)
     assert_equal "New Post", json["title"]
     assert_equal "New body", json["body"]
+    assert_equal categories(:sports).id, json["category_id"]
+  end
+
+  test "POST /posts without category_id returns 422" do
+    assert_no_difference("Post.count") do
+      post posts_url, params: { post: { title: "New Post", body: "New body", user_id: users(:alice).id } }, as: :json
+    end
+    assert_response :unprocessable_entity
+  end
+
+  test "POST /posts with nonexistent category_id returns 422" do
+    assert_no_difference("Post.count") do
+      post posts_url, params: { post: { title: "New Post", body: "New body", user_id: users(:alice).id, category_id: 0 } }, as: :json
+    end
+    assert_response :unprocessable_entity
   end
 
   test "POST /posts with invalid params returns 422" do

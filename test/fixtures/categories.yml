@@ -1,0 +1,11 @@
+sports:
+  name: Sports
+
+movies:
+  name: Movies
+
+video_games:
+  name: Video Games
+
+music:
+  name: Music
