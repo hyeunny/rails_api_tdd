@@ -1,9 +1,15 @@
 require "test_helper"
 
 class PostTest < ActiveSupport::TestCase
-  test "valid with title and body" do
-    post = Post.new(title: "Hello", body: "World")
+  test "valid with title, body, and author" do
+    post = Post.new(title: "Hello", body: "World", user: users(:alice))
     assert post.valid?
+  end
+
+  test "invalid without author" do
+    post = Post.new(title: "Hello", body: "World")
+    assert_not post.valid?
+    assert_includes post.errors[:user], "must exist"
   end
 
   test "invalid without title" do

@@ -25,7 +25,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
 
   test "POST /posts with valid params creates a post and returns 201" do
     assert_difference("Post.count") do
-      post posts_url, params: { post: { title: "New Post", body: "New body" } }, as: :json
+      post posts_url, params: { post: { title: "New Post", body: "New body", user_id: users(:alice).id } }, as: :json
     end
     assert_response :created
     json = JSON.parse(response.body)
