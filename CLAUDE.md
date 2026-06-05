@@ -18,21 +18,6 @@ GO READ THIS NOW.
 - `rails test`                     : Only run non-system tests for speedy TDD cycles
 - `rails test && rails test:system`: Run all tests when done with a feature
 
-# Testing and TDD
-
-When working on a new feature or a bug fix, you always write a failing test or series of
-tests first and then wait for me to review them.
-
-Then, when I've committed those tests, you add the smallest implementation possible to
-resolve a single test failure. It's ok if it happens to resolve an entire class of
-failures. For example, if a missing model is causing 10 tests to fail, it's fine to create
-a model that resolves those failures. But adding a model, validations, a controller, a
-view, and a route? Break that into individual steps so I can make tiny commits and
-understand each change fully.
-
-If your changes don't make at least one more test go green, keep working until they
-do, but always try to make the smallest change to make the least number of tests go green.
-
 ## Commands
 
 ```bash
